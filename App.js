@@ -9,8 +9,7 @@ export default function App() {
     </View>
   );
 }
-git config --global user.email "romanrogankov2012@gmail.com"
-git config --global user.name "romam20001888"
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
