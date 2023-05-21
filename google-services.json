@@ -1,0 +1,39 @@
+{
+    "project_info": {
+      "project_number": "850716850879",
+      "project_id": "acrodevsupport",
+      "storage_bucket": "acrodevsupport.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:850716850879:android:ff636ac9590cc23198640a",
+          "android_client_info": {
+            "package_name": "com.acrodev.support"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "850716850879-28gnaumrgn801e55cfc12gl19892pnmn.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyC78sreQDaGemjRMsw0ikY_6YPfWSYIIGo"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "850716850879-28gnaumrgn801e55cfc12gl19892pnmn.apps.googleusercontent.com",
+                "client_type": 3
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }

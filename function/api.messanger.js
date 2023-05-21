@@ -6,6 +6,7 @@ export class ApiControll{
         this.api_url = "http://176.96.228.59";
         this.api_page = {
             "user_login":"/user/login/",
+            "push_token":"/user/addPushToken/",
             "user_register":"/user/register/",
             "user_get_info":"/user/get_info/",
             "user_update":"/user/update/",
@@ -28,7 +29,22 @@ export class ApiControll{
         });
         return await dataFetch.json();
     }
-
+    
+    
+    async send_push_token_send(tokenPush){
+        let token = await this.getTokenApp(); // /user/addPushToken/
+        return await this.sendApi(
+            'push_token',
+            'POST',
+            {
+                'Content-Type':'application/json'
+            },
+            {
+                token:token,
+                tokenPush:tokenPush
+            }
+        );
+    }
     
     async news_list_send(page){
         let token = await this.getTokenApp();

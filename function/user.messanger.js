@@ -13,6 +13,11 @@ export class UserMessage{
         return dataUser;
     }
 
+    async sendPushToken(token) {
+        let api = new ApiControll()
+        return await api.send_push_token_send(token);
+    }
+
     async getNewsList(page) {
         let api = new ApiControll()
         return await api.news_list_send(page);

@@ -18,8 +18,16 @@ const ChatWindow = ({navigation,route}) => {
         updateList();
     }, [MessagePage]);
 
-    async function updateList() {
-        if(MessagePage==1){
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            updateList(false);
+        }, 1000);
+        return () => clearInterval(interval);
+        
+    }, []);
+
+    async function updateList(useUpdate = true) {
+        if(MessagePage==1 && useUpdate){
             setRefreshingIn(true) 
         }
         
@@ -38,7 +46,7 @@ const ChatWindow = ({navigation,route}) => {
             }
         }
 
-        if(MessagePage==1){
+        if(MessagePage==1 && useUpdate){
             setRefreshingIn(false) 
         }
     }
@@ -47,7 +55,8 @@ const ChatWindow = ({navigation,route}) => {
         let resulte = await user.addMessage(route.params.id,messageText)
         if(resulte?.error==undefined){
             SetMessagePage(1);
-            updateList()
+            updateList(false)
+            SetMessagePage(1);
         } 
     }
     
@@ -72,7 +81,11 @@ const ChatWindow = ({navigation,route}) => {
             </SafeAreaView>
         </View>
         <View style={styles.containerInputText}>
-            <TextInput style={styles.inputText} defaultValue={messageText} onChangeText={text => setMessageText(text)}/>
+            <TextInput 
+                style={styles.inputText} 
+                value={messageText} 
+                onChangeText={text => setMessageText(text)}
+            />
             <TouchableOpacity 
                 style={styles.buttonSend}
                 onPress={()=>{

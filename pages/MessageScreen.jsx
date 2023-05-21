@@ -13,8 +13,16 @@ export default function MessageScreen({navigation,route}) {
         updateList();
     },[MessagePage])
 
-    async function updateList() {
-        if(MessagePage==1){
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            updateList(false);
+        }, 1000);
+        return () => clearInterval(interval);
+        
+    }, []);
+
+    async function updateList(useUpdate = true) {
+        if(MessagePage==1 && useUpdate){
             setRefreshingIn(true) 
         }
         let resulte = await user.getChatList(MessagePage)
@@ -30,7 +38,7 @@ export default function MessageScreen({navigation,route}) {
                 SetMessage(messageSavePage)
             }
         }
-        if(MessagePage==1){
+        if(MessagePage==1 && useUpdate){
             setRefreshingIn(false) 
         }
     }

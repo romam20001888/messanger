@@ -4,7 +4,7 @@ import { UserMessage } from '../function/user.messanger';
 
 export default function StartScreen({navigation,route}) {
     var user = new UserMessage(navigation,route)
-
+    
     React.useEffect(()=>{ 
         checkUser();
     },[])
@@ -20,7 +20,7 @@ export default function StartScreen({navigation,route}) {
     return (<>
         <View style={styles.container}>
             <Text style={styles.h1}>
-                    messanger
+                messanger
             </Text>
         </View>
     </>)

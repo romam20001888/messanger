@@ -2,10 +2,8 @@ import * as React from 'react';
 import { TouchableOpacity,Modal,ScrollView,StyleSheet,Text,Image,View } from 'react-native';
 
 const ButtonBack = ({navigation,route,openPage}) => {
-    console.log([navigation,openPage])
     return (
       <>
-        
         <TouchableOpacity
             onPress={() =>{
                 navigation.navigate(openPage)
