@@ -4,7 +4,7 @@ import { TouchableOpacity,Modal,ScrollView,StyleSheet,Text,Image,View } from 're
 const NewsCart = ({navigation,item}) => {
     return (
       <>
-        <View style={styles.containerNews}>
+        <TouchableOpacity style={styles.containerNews}>
 
             <View style={styles.containerNewsImage}>
                 <Image 
@@ -15,7 +15,7 @@ const NewsCart = ({navigation,item}) => {
                 />
             </View>
             <Text style={styles.containerNewsTitleText}>{item.name}</Text>
-        </View>
+        </TouchableOpacity>
       </>
     );
 };
