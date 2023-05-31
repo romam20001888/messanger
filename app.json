@@ -20,14 +20,37 @@
     "ios": {
       "supportsTablet": true
     },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#ffffff"
+        }
+      ]
+    ],
+    "notification": {
+      "icon": "./assets/favicon.png",
+      "androidMode": "collapse"
+    },
+
     "android": {
+      "googleServicesFile": "./google-services.json",
+      "package": "com.acrodev.support",
+      "versionCode": 1, 
+      "permissions": ["READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE", "NOTIFICATIONS"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d8e79a3b-ac3e-4a3e-88a4-71f085888d00"
+      }
     }
   }
 }

@@ -9,6 +9,7 @@ const ChatWindow = ({navigation,route}) => {
     const [Message,SetMessage] = React.useState([]);
     const [refreshingIn, setRefreshingIn] = React.useState(false);
     const [messageText, setMessageText] = React.useState("");
+    const [messageUpdated, setMessageUpdated] = React.useState(undefined);
     const [MessagePage,SetMessagePage] = React.useState(1);
 
     React.useEffect(() => {
@@ -52,12 +53,13 @@ const ChatWindow = ({navigation,route}) => {
     }
 
     async function sendMessage() {
-        let resulte = await user.addMessage(route.params.id,messageText)
+        let resulte = await user.addMessage(route.params.id,messageText,messageUpdated)
         if(resulte?.error==undefined){
             SetMessagePage(1);
             updateList(false)
             SetMessagePage(1);
         } 
+        setMessageUpdated(undefined)
     }
     
     return (
@@ -74,7 +76,7 @@ const ChatWindow = ({navigation,route}) => {
                     data={Message}
                     refreshing={refreshingIn}
                     onRefresh={()=>{SetMessagePage(1)}}
-                    renderItem={({item}) => <ChatMessage item={item} users={Users} navigation={navigation}/>}
+                    renderItem={({item}) => <ChatMessage item={item} users={Users} setMessageText={setMessageText} setMessageUpdated={setMessageUpdated} navigation={navigation}/>}
                     keyExtractor={item => item.id}
                     onEndReached={()=>{SetMessagePage(MessagePage+1)}}
                 />

@@ -3,8 +3,9 @@ import { AsyncStorage } from 'react-native';
 export class ApiControll{
     constructor() {
         this.NameUserToken = "UserToken";
-        this.api_url = "http://176.96.228.59";
+        this.api_url = "https://messanger.romanrogankov.site";
         this.api_page = {
+            "check_server":"/user/check/",
             "user_login":"/user/login/",
             "push_token":"/user/addPushToken/",
             "user_register":"/user/register/",
@@ -13,6 +14,7 @@ export class ApiControll{
             "messanger_get_list_chat":"/message/getChatList/",
             "messanger_get_chat_id":"/message/getChat/",
             "messanger_add_message":"/message/addMessage/",
+            "delete_message":"/message/deleteMessage/",
             "news_list":"/news/getlist/",
         };
     }
@@ -28,6 +30,36 @@ export class ApiControll{
             body: JSON.stringify(body)
         });
         return await dataFetch.json();
+    }
+    
+    
+    async send_delete_message(id){
+        let token = await this.getTokenApp(); // /user/addPushToken/
+        return await this.sendApi(
+            'delete_message',
+            'POST',
+            {
+                'Content-Type':'application/json'
+            },
+            {
+                token:token,
+                id:id
+            }
+        );
+    }
+
+    async check_server_send(){
+        let token = await this.getTokenApp(); // /user/addPushToken/
+        return await this.sendApi(
+            'check_server',
+            'POST',
+            {
+                'Content-Type':'application/json'
+            },
+            {
+                token:token
+            }
+        );
     }
     
     
@@ -65,7 +97,7 @@ export class ApiControll{
         }
     }
 
-    async messanger_add_message(id,message=""){
+    async messanger_add_message(id,message="", idUpdated = undefined){
         let token = await this.getTokenApp();
         return await this.sendApi(
             'messanger_add_message',
@@ -77,6 +109,7 @@ export class ApiControll{
                 token:token,
                 id:id,
                 message:message,
+                idUpdated:idUpdated,
             }
         );
     }
@@ -126,7 +159,7 @@ export class ApiControll{
         );
     }
     
-    async user_register_send(login, pass, nick){
+    async user_regiter_send(data){
         return await this.sendApi(
             'user_register',
             'POST',
@@ -134,9 +167,7 @@ export class ApiControll{
                 'Content-Type':'application/json'
             },
             {
-                login:login,
-                password:pass,
-                nickname:nick,
+                data:data,
             }
         );
     }

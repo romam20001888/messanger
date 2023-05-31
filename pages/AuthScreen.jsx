@@ -4,7 +4,7 @@ import { UserMessage } from '../function/user.messanger';
 
 import ButtonElement from '../components/Button';
 
-export default function AuthScreen({navigation,route}) {
+export default function AuthScreen({navigation,route,registerForPushNotificationsAsync}) {
     var user = new UserMessage(navigation,route)
 
     const [Login, onChangeLogin] = React.useState("")
@@ -14,7 +14,10 @@ export default function AuthScreen({navigation,route}) {
     async function sendForm() {
         let resulte = await user.Login(Login,Password)
         if(resulte?.jwt!=undefined){
-            navigation.navigate('HomeScreen')
+            registerForPushNotificationsAsync().then(async(token) => {
+                user.sendPushToken(token)
+                navigation.navigate('HomeScreen')
+            })
         }else if(resulte?.error!=undefined){
             onChangeErrorText(resulte.error)
         }

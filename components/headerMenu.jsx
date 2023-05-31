@@ -2,9 +2,11 @@ import * as React from 'react';
 import { TouchableOpacity,Modal,ScrollView,StyleSheet,Text,Image,View } from 'react-native';
 import { UserMessage } from '../function/user.messanger';
 
-const HeaderMenu = ({navigation,route}) => {
+const HeaderMenu = ({navigation,route,responseListener}) => {
     const [statusMenu, onChangeStatusMenu] = React.useState(false);
     var user = new UserMessage(navigation,route)
+    
+
     return (
       <>
         

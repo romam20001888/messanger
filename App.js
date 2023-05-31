@@ -37,23 +37,25 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   var user = new UserMessage(false,false)
+  const [ServerCheck, setServerCheck] = React.useState(true);
   
-  React.useEffect(()=>{
-    registerForPushNotificationsAsync().then(token => {
-      user.sendPushToken(token)
-    })
-  })
+  const responseListener = React.useRef()
+
 
   return (
       <NavigationContainer>
-        <Stack.Navigator headerMode="screen" navigationOptions screenOptions={({ navigation }) => ({
-          headerLeft: () => <HeaderMenu navigation={navigation} />,
+        <Stack.Navigator headerMode="screen" screenOptions={({ navigation }) => ({
+          headerLeft: () => <HeaderMenu navigation={navigation}/>,
         })}>
           <Stack.Screen 
             name="StartScreen"
-            component={StartScreen}
+            component={({navigation,route}) => (
+              <StartScreen navigation={navigation} route={route} ServerCheck={ServerCheck} setServerCheck={setServerCheck} responseListener={responseListener} registerForPushNotificationsAsync={registerForPushNotificationsAsync} />
+            )}
             options={{headerShown: false}}
           />
+          
+          {ServerCheck==true?<>
           <Stack.Screen 
             name="HomeScreen"
             component={HomeScreen}
@@ -82,7 +84,9 @@ export default function App() {
           />
           <Stack.Screen 
             name="AuthScreen"
-            component={AuthScreen}
+            component={({navigation,route}) => (
+              <AuthScreen navigation={navigation} route={route} registerForPushNotificationsAsync={registerForPushNotificationsAsync}/>
+            )}
             options={{headerShown: false}}
           />
           <Stack.Screen 
@@ -90,6 +94,7 @@ export default function App() {
             component={RegistrationScreen}
             options={{headerShown: false}}
           />
+          </>:<></>}
         </Stack.Navigator>
       </NavigationContainer>
   );

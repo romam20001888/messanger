@@ -12,6 +12,28 @@ export class UserMessage{
             
         return dataUser;
     }
+    
+    async sendDeleteMessage(id) {
+        let api = new ApiControll()
+        return await api.send_delete_message(id);
+    }
+
+    async checkServer() {
+        try {
+            let server = await this.sendCheckServer()
+            if(server!==true){
+                return false;
+            }
+            return server;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    async sendCheckServer() {
+        let api = new ApiControll()
+        return await api.check_server_send();
+    }
 
     async sendPushToken(token) {
         let api = new ApiControll()
@@ -33,9 +55,9 @@ export class UserMessage{
         return await api.messanger_get_chat_id(id,page);
     }
 
-    async addMessage(id,message) {
+    async addMessage(id,message, idUpdated = undefined) {
         let api = new ApiControll()
-        return await api.messanger_add_message(id,message);
+        return await api.messanger_add_message(id,message,idUpdated);
     }
     
     async isAuth() {
@@ -53,30 +75,16 @@ export class UserMessage{
         return await api.deleteTokenApp();
     }
 
-    async Register(login,pass,nickname) {//Асинхронная функция регистрации пользователя
-        try {//отлов ошибок в скрипте
-            let dataFetch = await fetch(this.api_url+'/user/register/',{//Запрос по fetch
-                method: 'POST', 
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    login:login,//передача логина
-                    password:pass,//передача пароля
-                    nickname:nickname,//передача никнейма
-                })
-            });
-            let json = await dataFetch.json();
-            if(json?.res?.token){//Проверка наличия откена в ответе
-                this.saveTokenApp(json.res.token);//Сохранение токена в память устройства
-                this.token=json.res.token;//Сохранение токена пользователя в класс
-                return json.res;
-            }else{//Если токена в ответе нет, то возвращается ошибка
-                return json.error;
-            }
-        } catch (error) {
-            return error;//если есть ошибки в скрипте, то вернуть ошибку
+    async Register(data) {//Асинхронная функция регистрации пользователя
+        
+        let api = new ApiControll()
+        let dataUser = await api.user_regiter_send(data);
+
+        if(dataUser?.jwt!=undefined){
+            api.saveTokenApp(dataUser?.jwt);
         }
+            
+        return dataUser;
     }
 
     async GetUserInfo() {//Асинхронная функция регистрации пользователя

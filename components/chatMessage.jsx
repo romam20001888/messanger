@@ -1,7 +1,18 @@
 import * as React from 'react';
-import { TouchableOpacity,StyleSheet,Text,View } from 'react-native';
+import { TouchableOpacity,StyleSheet,Text,View,Image } from 'react-native';
+import { UserMessage } from '../function/user.messanger';
 
-const ChatMessage = ({navigation,item,users}) => {
+const ChatMessage = ({navigation,route,item,users,setMessageText,setMessageUpdated}) => {
+    const [openSelect, setOpenSelect] = React.useState(false)
+    var user = new UserMessage(navigation,route)
+
+    function deleteMessage(){
+        if(item?.id){
+            user.sendDeleteMessage(item.id).then(res=>{
+                console.log(res)
+            })
+        }
+    }
     if(item==undefined){
         return (
           <>
@@ -13,26 +24,56 @@ const ChatMessage = ({navigation,item,users}) => {
     }else{
         return (
           <>
-            <TouchableOpacity
-                onPress={()=>{
-                    navigation.navigate('ChatWindowScreen',{
-                        id:item.id,
-                        name:item.name,
-                    })
-                }}
-                onLongPress={()=>{
-                    alert("тут будет удалить чат) возможно даже в шапку запихаю")
-                }}
-                style={styles.containerNews}
+            <View
+                style={(item?.my)==true?styles.containerNewsMy:styles.containerNews}
             >
-                <View style={styles.containerNewsMessageHeader}>
-                    <Text style={styles.containerNewsTitleText}>{users[item?.user_id]?.nickname}</Text>
-                    <Text style={styles.containerNewsTitleTextDate}>{item?.date}</Text>
+                <TouchableOpacity 
+                    style={styles.containerMyLeft} 
+                    onPress={()=>{
+                        if((item?.my)==true){
+                            setOpenSelect(!openSelect)
+                        }
+                    }} 
+                >
+                    <View style={styles.containerNewsMessageHeader}>
+                        <Text style={styles.containerNewsTitleText}>{users[item?.user_id]?.nickname}</Text>
+                        <Text style={styles.containerNewsTitleTextDate}>{item?.date}</Text>
+                    </View>
+                    <View style={styles.containerNewsMessage}>
+                        <Text style={styles.containerNewsTitleText}>{item?.message}</Text>
+                    </View>
+                 </TouchableOpacity>
+                <View style={openSelect?styles.containerMyLeftMenu:styles.containerMyLeftMenuNone}>
+                    <TouchableOpacity 
+                        onPress={()=>{
+                            deleteMessage()
+                            setOpenSelect(!openSelect)
+                        }} 
+                        style={styles.editButtonMessage}
+                    >
+                        <Image 
+                            style={styles.editButtonMessageIcon}
+                            source={require('../images/bin.png')}
+                        />
+                        <Text style={styles.containerNewsTitleText}>Удалить</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                        onPress={()=>{
+                            setOpenSelect(!openSelect)
+                            setMessageText(item.message)
+                            setMessageUpdated(item.id)
+                        }} 
+                        style={styles.editButtonMessage}
+                    >
+                        <Image 
+                            style={styles.editButtonMessageIcon}
+                            source={require('../images/pencil.png')}
+                        />
+                        <Text style={styles.containerNewsTitleText}>Изменить</Text>
+                    </TouchableOpacity>
+                    
+                    </View>
                 </View>
-                <View style={styles.containerNewsMessage}>
-                    <Text style={styles.containerNewsTitleText}>{item?.message}</Text>
-                </View>
-            </TouchableOpacity>
           </>
         );
     }
@@ -40,6 +81,30 @@ const ChatMessage = ({navigation,item,users}) => {
 
 
 const styles = StyleSheet.create({
+    editButtonMessage:{
+        flex:1,
+        alignItems:"center",
+        justifyContent:"center",
+    },
+    editButtonMessageIcon:{
+        width:20,
+        height:20
+    },
+    containerMyLeftMenu:{
+        flex:1,
+        alignItems:"center",
+        justifyContent:"space-around",
+        flexDirection:"row",
+        marginTop:5,
+        backgroundColor:"white",
+        width:"80%",
+        borderRadius:10,
+        padding:10,
+        marginBottom:10
+    },
+    containerMyLeftMenuNone:{
+        display:"none"
+    },
     containerNewsEmpty:{
         textAlign:'center',
         flex:1,
@@ -67,12 +132,21 @@ const styles = StyleSheet.create({
         position:"relative",
         width: "100%",
     },
-    containerNews:{
-        padding:10,
-        marginBottom:5,
-        marginHorizontal:5,
+    containerMyLeft:{
+        width:"80%",
         borderRadius:10,
+        padding:10,
         backgroundColor:"white"
+    },
+    containerNews:{
+        marginBottom:5,
+        alignItems:"flex-start",
+        marginHorizontal:5,
+    },
+    containerNewsMy:{
+        marginBottom:5,
+        alignItems:"flex-end",
+        marginHorizontal:5,
     },
     
     containerNewsTitleTextDate: {
