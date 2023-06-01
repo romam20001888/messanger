@@ -9,10 +9,17 @@ export default function MessageScreen({navigation,route}) {
     const [Message,SetMessage] = React.useState([]);
     const [refreshingIn, setRefreshingIn] = React.useState(false);
     const [statusMenu, onChangeStatusMenu] = React.useState(false);
+    
+    const [MessageUserList,SetMessageUserList] = React.useState([]);
+    const [MessageUserListsearch,SetMessageUserListsearch] = React.useState(undefined);
 
     React.useEffect(()=>{ 
         updateList();
     },[MessagePage])
+
+    React.useEffect(()=>{ 
+        updateListUser();
+    },[MessageUserListsearch])
 
     React.useEffect(() => {
         const interval = setInterval(() => {
@@ -21,6 +28,11 @@ export default function MessageScreen({navigation,route}) {
         return () => clearInterval(interval);
         
     }, []);
+
+    async function updateListUser() {
+        let resulte = await user.getUserListAdd(MessageUserListsearch)
+        SetMessageUserList(resulte)
+    }
 
     async function updateList(useUpdate = true) {
         if(MessagePage==1 && useUpdate){
@@ -57,6 +69,7 @@ export default function MessageScreen({navigation,route}) {
         <TouchableOpacity
             style={styles.buttonAddChat} 
             onPress={()=>{
+                updateListUser()
                 onChangeStatusMenu(true);
             }}
         >
@@ -83,30 +96,76 @@ export default function MessageScreen({navigation,route}) {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.containerMenuContainer}>
-                    <TextInput placeholder='Введите имя пользователя'/>
-                    <ScrollView>
-                        <TouchableOpacity 
-                            style={styles.containerMenuItem}
-                            onPress={() =>{ 
-                                onChangeStatusMenu(!statusMenu)
-                                navigation.navigate('HomeScreen')
-                            }}
-                        >
-                            <Image 
-                                style={styles.iconMenu}
-                                source={require('../images/menu.png')}
-                            />
-                            <Text style={styles.iconMenuText}>Витя пертов</Text>
-                        </TouchableOpacity>
-                    </ScrollView>
+                    <TextInput 
+                        placeholder='Введите имя пользователя' 
+                        style={styles.containerMenuContainerInput}
+                        onChangeText={(e)=>{
+                            if(e == ""){
+                                SetMessageUserListsearch(undefined)
+                            }else{
+                                SetMessageUserListsearch(e)
+                            }
+                        }}
+                        value={MessageUserListsearch}
+                        
+                    />
+                    <SafeAreaView>
+                        <FlatList
+                            ListEmptyComponent={()=><MessageScreenAddUser />}
+                            data={MessageUserList}
+                            renderItem={({item}) => <MessageScreenAddUser item={item} route={route} navigation={navigation} onChangeStatusMenu={onChangeStatusMenu} />}
+                            keyExtractor={item => item.id}
+                        />
+                    </SafeAreaView>
                 </View>
             </View>
         </Modal>
     </>)
 }
 
+function MessageScreenAddUser({navigation,route,item,onChangeStatusMenu}) {
+    var user = new UserMessage(navigation,route)
+
+    function createNewChat() {
+        user.createChat(item.id).then(function (resulte) {
+            console.log(resulte)
+            if(resulte?.chat_id>0){
+                navigation.navigate('ChatWindowScreen',{
+                    id:resulte.chat_id,
+                    name:item.nickname,
+                })
+            }
+            onChangeStatusMenu(false)
+        })
+    }
+
+    if(item?.id>0){
+        return (<>
+            <TouchableOpacity 
+                style={styles.containerMenuItem}
+                onPress={() =>{ 
+                    createNewChat()
+                }}
+            >
+                <Text style={styles.iconMenuText}>{item.nickname}</Text>
+            </TouchableOpacity>
+        </>)
+    }else{
+        return (<>
+            <View style={styles.containerMenuItem}>
+                <Text style={styles.iconMenuText}>Новых пользователей нет</Text>
+            </View>
+        </>)
+    }
+}
+
 
 const styles = StyleSheet.create({
+    containerMenuContainerInput:{
+        paddingHorizontal:10,
+        fontSize:16,
+        marginVertical:10
+    },
     iconFilter: {
         width: 30,
         height: 30,
@@ -132,7 +191,8 @@ const styles = StyleSheet.create({
         justifyContent:"flex-start",
         flexDirection:"row",
         fontSize:18,
-        marginLeft:10,
+        backgroundColor:"#d1d1d1",
+        padding:10,
         marginBottom:10
     },
     containerMenuItemExit: {

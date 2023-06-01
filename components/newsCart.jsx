@@ -4,8 +4,15 @@ import { TouchableOpacity,Modal,ScrollView,StyleSheet,Text,Image,View } from 're
 const NewsCart = ({navigation,item}) => {
     return (
       <>
-        <TouchableOpacity style={styles.containerNews}>
-
+        <TouchableOpacity 
+            style={styles.containerNews}
+            onPress={()=>{
+                navigation.navigate('NewsDetail',{
+                    id:item.id,
+                })
+                
+            }}
+        >
             <View style={styles.containerNewsImage}>
                 <Image 
                     style={styles.iconMenu}

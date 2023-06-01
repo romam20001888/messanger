@@ -17,6 +17,9 @@ import * as TaskManager from 'expo-task-manager';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { UserMessage } from './function/user.messanger';
+import NewsDetail from './pages/NewsDetailScreen';
+import ModerationScreen from './pages/ModerationScreen';
+import ModerationDetail from './pages/ModerationDetailScreen';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -38,14 +41,23 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   var user = new UserMessage(false,false)
   const [ServerCheck, setServerCheck] = React.useState(true);
+  const [userInfo, setUserInfo] = React.useState({});
   
   const responseListener = React.useRef()
 
+  React.useEffect(() => {
+    getUserInfo();
+  }, [ServerCheck]);
+
+  async function getUserInfo() {
+      let resulte = await user.getUserInfo()
+      setUserInfo(resulte)
+  }
 
   return (
       <NavigationContainer>
         <Stack.Navigator headerMode="screen" screenOptions={({ navigation }) => ({
-          headerLeft: () => <HeaderMenu navigation={navigation}/>,
+          headerLeft: () => <HeaderMenu navigation={navigation} userInfo={userInfo}/>,
         })}>
           <Stack.Screen 
             name="StartScreen"
@@ -62,6 +74,17 @@ export default function App() {
             options={{
               title: 'Новости'
             }}
+          />
+          <Stack.Screen 
+            name="NewsDetail"
+            component={NewsDetail}
+            options={
+              ({ navigation}) => ({
+                headerLeft: () => (
+                  <ButtonBack navigation={navigation} openPage="HomeScreen" />
+                )
+              })
+            }
           />
           <Stack.Screen 
             name="MessageScreen"
@@ -94,6 +117,31 @@ export default function App() {
             component={RegistrationScreen}
             options={{headerShown: false}}
           />
+          {userInfo?.group?.is_admin=="Y"?<>
+            <Stack.Screen 
+              name="ModerationScreen"
+              component={ModerationScreen}
+              options={{
+                title: 'Модерация пользователей'
+              }}
+            />
+            <Stack.Screen 
+              name="ModerationDetailScreen"
+              component={ModerationDetail}
+              options={
+                ({ navigation}) => ({
+                  headerLeft: () => (
+                    <ButtonBack navigation={navigation} openPage="ModerationScreen" />
+                  )
+                })
+              }
+            />
+            
+          </>:<></>}
+
+
+
+
           </>:<></>}
         </Stack.Navigator>
       </NavigationContainer>

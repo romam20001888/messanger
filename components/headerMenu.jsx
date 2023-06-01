@@ -2,11 +2,10 @@ import * as React from 'react';
 import { TouchableOpacity,Modal,ScrollView,StyleSheet,Text,Image,View } from 'react-native';
 import { UserMessage } from '../function/user.messanger';
 
-const HeaderMenu = ({navigation,route,responseListener}) => {
+const HeaderMenu = ({navigation,route,userInfo}) => {
     const [statusMenu, onChangeStatusMenu] = React.useState(false);
     var user = new UserMessage(navigation,route)
     
-
     return (
       <>
         
@@ -36,10 +35,6 @@ const HeaderMenu = ({navigation,route,responseListener}) => {
                                 navigation.navigate('HomeScreen')
                             }}
                         >
-                            {/* <Image 
-                                style={styles.iconMenu}
-                                source={require('../images/task.png')}
-                            /> */}
                             <Text style={styles.iconMenuText}>Новости</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
@@ -49,10 +44,6 @@ const HeaderMenu = ({navigation,route,responseListener}) => {
                                 navigation.navigate('MessageScreen')
                             }}
                         >
-                            {/* <Image 
-                                style={styles.iconMenu}
-                                source={require('../images/comment.png')}
-                            /> */}
                             <Text style={styles.iconMenuText}>Сообщения</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
@@ -62,12 +53,19 @@ const HeaderMenu = ({navigation,route,responseListener}) => {
                                 navigation.navigate('MessageScreen')
                             }}
                         >
-                            {/* <Image 
-                                style={styles.iconMenu}
-                                source={require('../images/user.png')}
-                            /> */}
                             <Text style={styles.iconMenuText}>Личный кабинет</Text>
                         </TouchableOpacity>
+                        {userInfo?.group?.is_admin=="Y"?<>
+                            <TouchableOpacity 
+                                style={styles.containerMenuItem}
+                                onPress={() =>{ 
+                                    onChangeStatusMenu(!statusMenu)
+                                    navigation.navigate('ModerationScreen')
+                                }}
+                            >
+                                <Text style={styles.iconMenuText}>Модерация пользователей</Text>
+                            </TouchableOpacity>
+                        </>:<></>}
                         <TouchableOpacity 
                             style={styles.containerMenuItemExit}
                             onPress={() =>{

@@ -13,6 +13,21 @@ export class UserMessage{
         return dataUser;
     }
     
+    async getUserModeration(id) {
+        let api = new ApiControll()
+        return await api.send_get_moderation_user_by_id(id);
+    }
+
+    async getModerationList() {
+        let api = new ApiControll()
+        return await api.send_get_moderation_user();
+    }
+
+    async getUserInfo() {
+        let api = new ApiControll()
+        return await api.send_get_user_info();
+    }
+
     async sendDeleteMessage(id) {
         let api = new ApiControll()
         return await api.send_delete_message(id);
@@ -28,6 +43,16 @@ export class UserMessage{
         } catch (error) {
             return false;
         }
+    }
+    
+    async getNews(id) {
+        let api = new ApiControll()
+        return await api.get_news(id);
+    }
+
+    async createChat(userTo) {
+        let api = new ApiControll()
+        return await api.create_chat(userTo);
     }
 
     async sendCheckServer() {
@@ -53,6 +78,11 @@ export class UserMessage{
     async getChatInfo(id,page) {
         let api = new ApiControll()
         return await api.messanger_get_chat_id(id,page);
+    }
+    
+    async getUserListAdd(MessageUserListsearch) {
+        let api = new ApiControll()
+        return await api.get_user_list_chat_add(MessageUserListsearch);
     }
 
     async addMessage(id,message, idUpdated = undefined) {

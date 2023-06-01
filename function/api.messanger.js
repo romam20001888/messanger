@@ -5,6 +5,9 @@ export class ApiControll{
         this.NameUserToken = "UserToken";
         this.api_url = "https://messanger.romanrogankov.site";
         this.api_page = {
+            "get_user_info":"/user/getUserInfo/",
+            "get_moderation_user":"/user/getModerationList/",
+            "get_moderation_user_by_id":"/user/getModerationUser/",
             "check_server":"/user/check/",
             "user_login":"/user/login/",
             "push_token":"/user/addPushToken/",
@@ -15,7 +18,10 @@ export class ApiControll{
             "messanger_get_chat_id":"/message/getChat/",
             "messanger_add_message":"/message/addMessage/",
             "delete_message":"/message/deleteMessage/",
+            "get_user_list_chat_add":"/message/getListUserAdd/",
+            "create_chat":"/message/createChat/",
             "news_list":"/news/getlist/",
+            "get_news":"/news/getNews/",
         };
     }
 
@@ -32,7 +38,94 @@ export class ApiControll{
         return await dataFetch.json();
     }
     
+    async send_get_moderation_user_by_id(id){
+        let token = await this.getTokenApp(); // /user/addPushToken/
+        return await this.sendApi(
+            'get_moderation_user_by_id',
+            'POST',
+            {
+                'Content-Type':'application/json'
+            },
+            {
+                token:token,
+                id:id,
+            }
+        );
+    }
+
+    async send_get_moderation_user(){
+        let token = await this.getTokenApp(); // /user/addPushToken/
+        return await this.sendApi(
+            'get_moderation_user',
+            'POST',
+            {
+                'Content-Type':'application/json'
+            },
+            {
+                token:token,
+            }
+        );
+    }
+
+    async send_get_user_info(){
+        let token = await this.getTokenApp(); // /user/addPushToken/
+        return await this.sendApi(
+            'get_user_info',
+            'POST',
+            {
+                'Content-Type':'application/json'
+            },
+            {
+                token:token,
+            }
+        );
+    }
     
+    async get_news(id){
+        let token = await this.getTokenApp(); // /user/addPushToken/
+        return await this.sendApi(
+            'get_news',
+            'POST',
+            {
+                'Content-Type':'application/json'
+            },
+            {
+                token:token,
+                id:id
+            }
+        );
+    }
+
+    async get_user_list_chat_add(MessageUserListsearch){
+        let token = await this.getTokenApp(); // /user/addPushToken/
+        return await this.sendApi(
+            'get_user_list_chat_add',
+            'POST',
+            {
+                'Content-Type':'application/json'
+            },
+            {
+                token:token,
+                name:MessageUserListsearch?MessageUserListsearch:false
+            }
+        );
+    }
+    
+    async create_chat(user_to){
+        let token = await this.getTokenApp(); // /user/addPushToken/
+        return await this.sendApi(
+            'create_chat',
+            'POST',
+            {
+                'Content-Type':'application/json'
+            },
+            {
+                token:token,
+                user_to:user_to
+            }
+        );
+    }
+
     async send_delete_message(id){
         let token = await this.getTokenApp(); // /user/addPushToken/
         return await this.sendApi(
