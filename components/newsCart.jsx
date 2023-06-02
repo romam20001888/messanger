@@ -17,7 +17,7 @@ const NewsCart = ({navigation,item}) => {
                 <Image 
                     style={styles.iconMenu}
                     source={{
-                        uri: 'https://vigmebel.acrodev.ru/upload/iblock/e2e/yzu9uupsfxdxbc0tvgmpemnqapcve3t1/Frame_19.png',
+                        uri: item.image,
                     }}
                 />
             </View>

@@ -1,4 +1,4 @@
-import { StyleSheet, Image, Text, View } from 'react-native';
+import { StyleSheet,ScrollView, Image, Text, View } from 'react-native';
 import * as React from 'react';
 import { UserMessage } from '../function/user.messanger';
 
@@ -23,11 +23,13 @@ export default function NewsDetail({navigation,route}) {
             <Image 
                 style={styles.iconMenu}
                 source={{
-                    uri: 'https://vigmebel.acrodev.ru/upload/iblock/e2e/yzu9uupsfxdxbc0tvgmpemnqapcve3t1/Frame_19.png',
+                    uri: News?.image,
                 }}
             />
         </View>
-        <Text style={styles.containerNewsTitleText}>{News.description}</Text>
+            <ScrollView>
+                <Text style={styles.containerNewsTitleText}>{News?.description}</Text>
+            </ScrollView>
     </>)
 }
 
@@ -53,6 +55,7 @@ const styles = StyleSheet.create({
     containerNewsTitleText: {
        fontSize:16,
        marginTop:10,
+       padding:10,
        textAlign:"left",
     },
 });
