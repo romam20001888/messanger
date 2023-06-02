@@ -20,6 +20,7 @@ import { UserMessage } from './function/user.messanger';
 import NewsDetail from './pages/NewsDetailScreen';
 import ModerationScreen from './pages/ModerationScreen';
 import ModerationDetail from './pages/ModerationDetailScreen';
+import PersonalScreen from './pages/PersonalScreen';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -105,6 +106,14 @@ export default function App() {
             }
             
           />
+          <Stack.Screen 
+            name="PersonalScreen"
+            component={PersonalScreen}
+            options={{
+              title: 'Личный кабинет'
+            }}
+          />
+          
           <Stack.Screen 
             name="AuthScreen"
             component={({navigation,route}) => (

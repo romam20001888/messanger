@@ -50,7 +50,7 @@ const HeaderMenu = ({navigation,route,userInfo}) => {
                             style={styles.containerMenuItem}
                             onPress={() =>{ 
                                 onChangeStatusMenu(!statusMenu)
-                                navigation.navigate('MessageScreen')
+                                navigation.navigate('PersonalScreen')
                             }}
                         >
                             <Text style={styles.iconMenuText}>Личный кабинет</Text>
