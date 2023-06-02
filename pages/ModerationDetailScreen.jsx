@@ -79,7 +79,7 @@ export default function ModerationDetail({navigation,route}) {
     }
     return (<>
         <View style={styles.containerNews}>
-                <ScrollView>
+            <ScrollView>
                 <View style={styles.containerNewsInput}>
                     <Text style={styles.containerNewsTitleText}>Почта:</Text>
                     <TextInput

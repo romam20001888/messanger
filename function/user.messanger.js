@@ -22,6 +22,11 @@ export class UserMessage{
         let api = new ApiControll()
         return await api.send_get_group_list();
     }
+    
+    async getUserPersonal() {
+        let api = new ApiControll()
+        return await api.send_get_personal_user_by_id();
+    }
 
     async getUserModeration(id) {
         let api = new ApiControll()

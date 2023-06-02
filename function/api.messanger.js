@@ -9,6 +9,7 @@ export class ApiControll{
             "get_group_list":"/user/getUserGroupList/",
             "get_user_info":"/user/getUserInfo/",
             "get_moderation_user":"/user/getModerationList/",
+            "get_personal_user_by_id":"/user/getPersonalUser/",
             "get_moderation_user_by_id":"/user/getModerationUser/",
             "check_server":"/user/check/",
             "user_login":"/user/login/",
@@ -62,6 +63,20 @@ export class ApiControll{
             {
                 token:token,
                 update:updatet,
+            }
+        );
+    }
+    
+    async send_get_personal_user_by_id(){
+        let token = await this.getTokenApp(); // /user/addPushToken/
+        return await this.sendApi(
+            'get_personal_user_by_id',
+            'POST',
+            {
+                'Content-Type':'application/json'
+            },
+            {
+                token:token,
             }
         );
     }
