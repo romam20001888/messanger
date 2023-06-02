@@ -10,8 +10,11 @@ export default function ModerationScreen({navigation,route}) {
     var user = new UserMessage(navigation,route)
 
     React.useEffect(()=>{ 
-        updateList();
-    },[NewsPage])
+        const interval = setInterval(() => {
+            updateList();
+        }, 1000);
+        return () => clearInterval(interval);
+    },[])
 
     async function updateList() {
         setRefreshingIn(true) 
@@ -23,11 +26,8 @@ export default function ModerationScreen({navigation,route}) {
         <SafeAreaView>
             <FlatList
                 data={News}
-                refreshing={refreshingIn}
-                onRefresh={()=>{SetNewsPage(1)}}
                 renderItem={({item}) => <ModerationCart item={item} navigation={navigation}/>}
                 keyExtractor={item => item.id}
-                onEndReached={()=>{SetNewsPage(NewsPage+1)}}
             />
         </SafeAreaView>
     </>)

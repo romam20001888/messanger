@@ -5,6 +5,8 @@ export class ApiControll{
         this.NameUserToken = "UserToken";
         this.api_url = "https://messanger.romanrogankov.site";
         this.api_page = {
+            "get_updated_moderation":"/user/getUpdateModeration/",
+            "get_group_list":"/user/getUserGroupList/",
             "get_user_info":"/user/getUserInfo/",
             "get_moderation_user":"/user/getModerationList/",
             "get_moderation_user_by_id":"/user/getModerationUser/",
@@ -38,6 +40,32 @@ export class ApiControll{
         return await dataFetch.json();
     }
     
+    async send_get_group_list(){
+        let token = await this.getTokenApp(); // /user/addPushToken/
+        return await this.sendApi(
+            'get_group_list',
+            'POST',
+            {
+                'Content-Type':'application/json'
+            }
+        );
+    }
+
+    async send_updated_moderation(updatet){
+        let token = await this.getTokenApp(); // /user/addPushToken/
+        return await this.sendApi(
+            'get_updated_moderation',
+            'POST',
+            {
+                'Content-Type':'application/json'
+            },
+            {
+                token:token,
+                update:updatet,
+            }
+        );
+    }
+
     async send_get_moderation_user_by_id(id){
         let token = await this.getTokenApp(); // /user/addPushToken/
         return await this.sendApi(

@@ -13,6 +13,16 @@ export class UserMessage{
         return dataUser;
     }
     
+    async getUpdateModeration(updatet) {
+        let api = new ApiControll()
+        return await api.send_updated_moderation(updatet);
+    }
+
+    async getUserGroupList() {
+        let api = new ApiControll()
+        return await api.send_get_group_list();
+    }
+
     async getUserModeration(id) {
         let api = new ApiControll()
         return await api.send_get_moderation_user_by_id(id);
