@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import * as React from 'react';
 import * as Notifications from 'expo-notifications';
 import { UserMessage } from '../function/user.messanger';
@@ -56,8 +56,13 @@ export default function StartScreen({navigation,route,setServerCheck,ServerCheck
 
     return (<>
         <View style={styles.container}>
+            <Image 
+                style={styles.iconAddChat}
+                source={require('../assets/icon.png')}
+            
+            />
             <Text style={styles.h1}>
-                messanger
+                MESSANGER
             </Text>
             {ServerCheck!==true?<>
             <Text style={styles.h2}>
@@ -74,6 +79,10 @@ export default function StartScreen({navigation,route,setServerCheck,ServerCheck
 
 const styles = StyleSheet.create({
     
+    iconAddChat: {
+        width: 60,
+        height: 60,
+    },
     logoContainer: {
         marginBottom:15
     },

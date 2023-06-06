@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { TouchableOpacity,SafeAreaView,FlatList,StyleSheet,Text,Image,View, TextInput } from 'react-native';
+import { TouchableOpacity,SafeAreaView,FlatList,StyleSheet,PermissionsAndroid,Image,View, TextInput } from 'react-native';
 import { UserMessage } from '../function/user.messanger';
 import ChatMessage from '../components/chatMessage';
+import * as DocumentPicker from 'expo-document-picker';
 
 const ChatWindow = ({navigation,route}) => {
     var user = new UserMessage(navigation,route)
@@ -11,13 +12,50 @@ const ChatWindow = ({navigation,route}) => {
     const [messageText, setMessageText] = React.useState("");
     const [messageUpdated, setMessageUpdated] = React.useState(undefined);
     const [MessagePage,SetMessagePage] = React.useState(1);
+    const [singleFile, setSingleFile] = React.useState(null);
 
+
+    const checkPermissions = async () => {
+        try {
+          const result = await PermissionsAndroid.check(
+            PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
+          );
+    
+          if (!result) {
+            const granted = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+              {
+                title:
+                  'You need to give storage permission to download and save the file',
+                message: 'App needs access to your camera ',
+                buttonNeutral: 'Ask Me Later',
+                buttonNegative: 'Cancel',
+                buttonPositive: 'OK',
+              }
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+              console.log('You can use the camera');
+              return true;
+            } else {
+              Alert.alert('Error', I18n.t('PERMISSION_ACCESS_FILE'));
+    
+              console.log('Camera permission denied');
+              return false;
+            }
+          } else {
+            return true;
+          }
+        } catch (err) {
+          console.warn(err);
+          return false;
+        }
+      };
     React.useEffect(() => {
         navigation.setOptions({
             title:route.params.name,
         });
         updateList();
-    }, [MessagePage]);
+    }, [MessagePage,route.params.name]);
 
     React.useEffect(() => {
         const interval = setInterval(() => {
@@ -61,6 +99,47 @@ const ChatWindow = ({navigation,route}) => {
         } 
         setMessageUpdated(undefined)
     }
+
+
+    const uploadImage = async () => {
+        if (singleFile != null) {
+            const data = new FormData();
+        
+            data.append('file_attachment', {
+                uri: singleFile.uri,
+                name: singleFile.name,
+                type: singleFile.mimeType,
+            });
+    
+            let resulte = await user.uploadImage(route.params.id,data)
+            setSingleFile(null);
+        }
+    };
+
+    async function selectFile() {
+        try {
+          const result = await checkPermissions();
+          if (result) {
+            let resulte = await DocumentPicker.getDocumentAsync({
+              copyToCacheDirectory: false,
+              type: 'image/*',
+            });
+    
+            console.log(resulte)
+            if (resulte.type === 'success') {
+              setSingleFile(resulte);
+              setTimeout(() => {
+                uploadImage()
+              }, 100);
+            }
+          }
+
+        } catch (err) {
+          setSingleFile(null);
+          return false;
+        }
+    }
+    
     
     return (
       <>
@@ -83,6 +162,15 @@ const ChatWindow = ({navigation,route}) => {
             </SafeAreaView>
         </View>
         <View style={styles.containerInputText}>
+            <TouchableOpacity
+                style={styles.buttonSend}
+                activeOpacity={0.5}
+                onPress={selectFile}>
+                <Image 
+                    style={styles.iconSend}
+                    source={require('../images/file-add.png')}
+                />
+            </TouchableOpacity>
             <TextInput 
                 style={styles.inputText} 
                 value={messageText} 
@@ -90,6 +178,7 @@ const ChatWindow = ({navigation,route}) => {
             />
             <TouchableOpacity 
                 style={styles.buttonSend}
+                activeOpacity={0.5}
                 onPress={()=>{
                     sendMessage()
                     setMessageText("")
@@ -118,7 +207,7 @@ const styles = StyleSheet.create({
     },
     inputText:{
         borderColor:"grey",
-        width:"82%",
+        width:"70%",
         height:40,
         borderWidth:1,
         marginHorizontal:5,

@@ -5,7 +5,6 @@ import { UserMessage } from '../function/user.messanger';
 const ChatMessage = ({navigation,route,item,users,setMessageText,setMessageUpdated}) => {
     const [openSelect, setOpenSelect] = React.useState(false)
     var user = new UserMessage(navigation,route)
-
     function deleteMessage(){
         if(item?.id){
             user.sendDeleteMessage(item.id).then(res=>{
@@ -40,7 +39,16 @@ const ChatMessage = ({navigation,route,item,users,setMessageText,setMessageUpdat
                         <Text style={styles.containerNewsTitleTextDate}>{item?.date}</Text>
                     </View>
                     <View style={styles.containerNewsMessage}>
+                        {item?.image?
+                            <Image 
+                                style={styles.chatImage}
+                                source={{
+                                  uri: item.image,
+                                }}
+                            />
+                        :
                         <Text style={styles.containerNewsTitleText}>{item?.message}</Text>
+                        }
                     </View>
                  </TouchableOpacity>
                 <View style={openSelect?styles.containerMyLeftMenu:styles.containerMyLeftMenuNone}>
@@ -57,20 +65,25 @@ const ChatMessage = ({navigation,route,item,users,setMessageText,setMessageUpdat
                         />
                         <Text style={styles.containerNewsTitleText}>Удалить</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity 
-                        onPress={()=>{
-                            setOpenSelect(!openSelect)
-                            setMessageText(item.message)
-                            setMessageUpdated(item.id)
-                        }} 
-                        style={styles.editButtonMessage}
-                    >
-                        <Image 
-                            style={styles.editButtonMessageIcon}
-                            source={require('../images/pencil.png')}
-                        />
-                        <Text style={styles.containerNewsTitleText}>Изменить</Text>
-                    </TouchableOpacity>
+                    
+                        {item?.image?
+                            <></>
+                            :
+                            <TouchableOpacity 
+                                onPress={()=>{
+                                    setOpenSelect(!openSelect)
+                                    setMessageText(item.message)
+                                    setMessageUpdated(item.id)
+                                }} 
+                                style={styles.editButtonMessage}
+                            >
+                                <Image 
+                                    style={styles.editButtonMessageIcon}
+                                    source={require('../images/pencil.png')}
+                                />
+                                <Text style={styles.containerNewsTitleText}>Изменить</Text>
+                            </TouchableOpacity>
+                        }
                     
                     </View>
                 </View>
@@ -89,6 +102,12 @@ const styles = StyleSheet.create({
     editButtonMessageIcon:{
         width:20,
         height:20
+    },
+    chatImage:{
+        width:"100%",
+        height:200,
+        resizeMode: 'cover'
+
     },
     containerMyLeftMenu:{
         flex:1,

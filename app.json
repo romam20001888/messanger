@@ -36,13 +36,13 @@
 
     "android": {
       "googleServicesFile": "./google-services.json",
-      "package": "com.acrodev.support",
+      "package": "com.romanrogankov.messanger",
       "versionCode": 1, 
       "permissions": ["READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE", "NOTIFICATIONS"],
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
-      },
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

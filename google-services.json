@@ -1,39 +1,39 @@
 {
-    "project_info": {
-      "project_number": "850716850879",
-      "project_id": "acrodevsupport",
-      "storage_bucket": "acrodevsupport.appspot.com"
-    },
-    "client": [
-      {
-        "client_info": {
-          "mobilesdk_app_id": "1:850716850879:android:ff636ac9590cc23198640a",
-          "android_client_info": {
-            "package_name": "com.acrodev.support"
-          }
-        },
-        "oauth_client": [
-          {
-            "client_id": "850716850879-28gnaumrgn801e55cfc12gl19892pnmn.apps.googleusercontent.com",
-            "client_type": 3
-          }
-        ],
-        "api_key": [
-          {
-            "current_key": "AIzaSyC78sreQDaGemjRMsw0ikY_6YPfWSYIIGo"
-          }
-        ],
-        "services": {
-          "appinvite_service": {
-            "other_platform_oauth_client": [
-              {
-                "client_id": "850716850879-28gnaumrgn801e55cfc12gl19892pnmn.apps.googleusercontent.com",
-                "client_type": 3
-              }
-            ]
-          }
+  "project_info": {
+    "project_number": "764084487071",
+    "project_id": "messanger-aeb61",
+    "storage_bucket": "messanger-aeb61.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764084487071:android:ddf4353898e25f9b3873aa",
+        "android_client_info": {
+          "package_name": "com.romanrogankov.messanger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "764084487071-lfkdqiraldnhdebiia259ckm8dm7j4g8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0w8m8PJjNHHrY7R3mcoOCVMDxfv8s_8k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "764084487071-lfkdqiraldnhdebiia259ckm8dm7j4g8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
-    ],
-    "configuration_version": "1"
-  }
+    }
+  ],
+  "configuration_version": "1"
+}

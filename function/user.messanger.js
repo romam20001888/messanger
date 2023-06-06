@@ -17,6 +17,11 @@ export class UserMessage{
         let api = new ApiControll()
         return await api.send_updated_moderation(updatet);
     }
+    
+    async uploadImage(id,data) {
+        let api = new ApiControll()
+        return await api.send_upload_image(id,data);
+    }
 
     async getUserGroupList() {
         let api = new ApiControll()

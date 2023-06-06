@@ -23,6 +23,7 @@ export class ApiControll{
             "delete_message":"/message/deleteMessage/",
             "get_user_list_chat_add":"/message/getListUserAdd/",
             "create_chat":"/message/createChat/",
+            "upload_image":"/message/uploadFile/",
             "news_list":"/news/getlist/",
             "get_news":"/news/getNews/",
         };
@@ -41,6 +42,19 @@ export class ApiControll{
         return await dataFetch.json();
     }
     
+    async send_upload_image(id,data){
+        let token = await this.getTokenApp(); // /user/addPushToken/
+        let dataFetch = await fetch(this.api_url + '/message/uploadFile/?id='+id+'&token='+token, {
+            method: 'POST',
+            body: data,
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'multipart/form-data',
+            },
+            timeout: 5000,
+        });
+        return await dataFetch.json();
+    }
     async send_get_group_list(){
         let token = await this.getTokenApp(); // /user/addPushToken/
         return await this.sendApi(
