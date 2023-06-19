@@ -19,8 +19,10 @@ import * as Notifications from 'expo-notifications';
 import { UserMessage } from './function/user.messanger';
 import NewsDetail from './pages/NewsDetailScreen';
 import ModerationScreen from './pages/ModerationScreen';
+import ModerationActiveScreen from './pages/ModerationActiveScreen';
 import ModerationDetail from './pages/ModerationDetailScreen';
 import PersonalScreen from './pages/PersonalScreen';
+import ModerationDetailActive from './pages/ModerationDetailActiveScreen';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -128,11 +130,29 @@ export default function App() {
           />
           {userInfo?.group?.is_admin=="Y"?<>
             <Stack.Screen 
+              name="ModerationActiveScreen"
+              component={ModerationActiveScreen}
+              options={{
+                title: 'Пользователеи'
+              }}
+            />
+            <Stack.Screen 
               name="ModerationScreen"
               component={ModerationScreen}
               options={{
                 title: 'Модерация пользователей'
               }}
+            />
+            <Stack.Screen 
+              name="ModerationDetailActiveScreen"
+              component={ModerationDetailActive}
+              options={
+                ({ navigation}) => ({
+                  headerLeft: () => (
+                    <ButtonBack navigation={navigation} openPage="ModerationActiveScreen" />
+                  )
+                })
+              }
             />
             <Stack.Screen 
               name="ModerationDetailScreen"

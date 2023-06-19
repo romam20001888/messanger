@@ -8,6 +8,7 @@ export class ApiControll{
             "get_updated_moderation":"/user/getUpdateModeration/",
             "get_group_list":"/user/getUserGroupList/",
             "get_user_info":"/user/getUserInfo/",
+            "get_moderation_active_user":"/user/getModerationActiveList/",
             "get_moderation_user":"/user/getModerationList/",
             "get_personal_user_by_id":"/user/getPersonalUser/",
             "get_moderation_user_by_id":"/user/getModerationUser/",
@@ -106,6 +107,20 @@ export class ApiControll{
             {
                 token:token,
                 id:id,
+            }
+        );
+    }
+    
+    async send_get_moderation_active_user(){
+        let token = await this.getTokenApp(); // /user/addPushToken/
+        return await this.sendApi(
+            'get_moderation_active_user',
+            'POST',
+            {
+                'Content-Type':'application/json'
+            },
+            {
+                token:token,
             }
         );
     }

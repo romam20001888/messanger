@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { TouchableOpacity,Modal,ScrollView,StyleSheet,Text,Image,View } from 'react-native';
 
-const ModerationCart = ({navigation,item}) => {
+const ModerationCart = ({navigation,item, users}) => {
     return (
       <>
         <TouchableOpacity 
             style={styles.containerNews}
             onPress={()=>{
-                navigation.navigate('ModerationDetailScreen',{
+                navigation.navigate(users==true?'ModerationDetailActiveScreen':'ModerationDetailScreen',{
                     id:item.id,
                 })
                 

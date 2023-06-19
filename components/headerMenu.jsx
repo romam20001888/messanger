@@ -65,6 +65,15 @@ const HeaderMenu = ({navigation,route,userInfo}) => {
                             >
                                 <Text style={styles.iconMenuText}>Модерация пользователей</Text>
                             </TouchableOpacity>
+                            <TouchableOpacity 
+                                style={styles.containerMenuItem}
+                                onPress={() =>{ 
+                                    onChangeStatusMenu(!statusMenu)
+                                    navigation.navigate('ModerationActiveScreen')
+                                }}
+                            >
+                                <Text style={styles.iconMenuText}>Список пользователей</Text>
+                            </TouchableOpacity>
                         </>:<></>}
                         <TouchableOpacity 
                             style={styles.containerMenuItemExit}

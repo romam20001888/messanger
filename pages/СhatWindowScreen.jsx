@@ -125,13 +125,11 @@ const ChatWindow = ({navigation,route}) => {
               type: 'image/*',
             });
     
-            console.log(resulte)
             if (resulte.type === 'success') {
               setSingleFile(resulte);
-              setTimeout(() => {
-                uploadImage()
-              }, 100);
+              uploadImage()
             }
+            console.log(resulte)
           }
 
         } catch (err) {

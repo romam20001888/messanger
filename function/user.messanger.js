@@ -37,6 +37,11 @@ export class UserMessage{
         let api = new ApiControll()
         return await api.send_get_moderation_user_by_id(id);
     }
+    
+    async getModerationActiveList() {
+        let api = new ApiControll()
+        return await api.send_get_moderation_active_user();
+    }
 
     async getModerationList() {
         let api = new ApiControll()
