@@ -65,7 +65,7 @@ export default function AuthScreen({navigation,route,registerForPushNotification
                     onPress={() =>{
                         navigation.navigate('RegistrationScreen')
                     }}
-                >Регистраиця</Text>
+                >Регистрация</Text>
             </View>
         </View>
     </>)
